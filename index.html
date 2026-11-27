@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dahong Livestream</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--peach:#F8C0A9;--cream:#FFF6F1;--ink:#2B2B2B;--muted:#5A4A44;--line:#E8C9B8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--peach);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif}
+.hero{max-width:1200px;margin:0 auto;padding:48px 16px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px}
+.hero img{width:min(440px,80%);height:auto;display:block}
+.hero h1{margin:8px 0 0;font-family:'Be Vietnam Pro','Noto Sans KR',sans-serif;font-size:clamp(28px,5vw,52px);line-height:1.15;font-weight:600}
+.hero p{margin:0;font-size:18px;color:#4A3A34}
+main{background:var(--cream);border-radius:32px 32px 0 0;padding:48px 16px 72px}
+.wrap{max-width:1200px;margin:0 auto}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:28px}
+.head h2{margin:0;font-size:28px}
+.head span{font-size:15px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:24px}
+.card{background:#fff;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 24px rgba(120,60,30,.06)}
+.main-img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:#FBE3D6}
+.thumbs{display:flex;gap:6px;padding:10px 12px 0;overflow-x:auto}
+.thumbs button{flex:0 0 56px;width:56px;height:56px;padding:0;border:2px solid transparent;border-radius:10px;background:none;cursor:pointer;opacity:.75}
+.thumbs button.on{border-color:var(--ink);opacity:1}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block;border-radius:8px}
+.noimg{width:100%;aspect-ratio:4/5;background:#FBE3D6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#6B5249;text-align:center;padding:24px}
+.body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:14px;flex-grow:1}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.lbl{font-size:12px;color:#6B5249;display:block;margin-bottom:4px}
+.code{font-size:22px;font-weight:700}
+.price{background:var(--peach);font-size:15px;font-weight:700;padding:6px 12px;border-radius:999px;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{border:1px solid var(--line);font-size:14px;padding:4px 10px;border-radius:999px}
+.mat{font-size:15px;line-height:1.5}
+.extra,.small{font-size:14px;color:var(--muted)}
+.small{font-size:12px}
+.new{background:#FFF1E6;border:1px solid #F2B48F;border-radius:12px;padding:12px 14px}
+.new b{font-size:13px;color:#9A3412;display:block;margin-bottom:4px}
+.new span{font-size:14px;line-height:1.5}
+footer{background:var(--cream);padding:0 16px 40px;text-align:center;font-size:14px;color:var(--muted)}
+</style>
+</head>
+<body>
+<section class="hero">
+  <img src="images/logo.png" alt="DAHONG">
+  <h1>Welcome to Dahong's Livestream</h1>
+  <p>다홍 라이브 방송 상품 안내</p>
+</section>
+<main>
+  <div class="wrap">
+    <div class="head"><h2>상품 목록</h2><span id="count"></span></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</main>
+<footer>© DAHONG</footer>
+<script>
+const CASH='캐시미어 55% · 울 42% · 아크릴 3%';
+const KNIT='울 68% · 폴리아미드 12% · 아크릴 12% · 스판덱스 8%';
+const PRESS='울 50% · 폴리에스터 35% · 아크릴 15%';
+const BRUSH='울 60% · 모헤어 25% · 폴리에스터 15%';
+const P=[
+{code:'상의 01',img:['t01',3],colors:['레드'],price:'₩ 40.000 - 45.000',mats:[CASH]},
+{code:'상의 02',img:['t02',4],colors:['그레이','화이트'],price:'₩ 38.000 - 43.000',mats:[CASH]},
+{code:'상의 03',img:['t03',3],colors:['멜란지 그레이'],price:'₩ 40.000 - 45.000',mats:[CASH]},
+{code:'상의 04',img:['t04',3],colors:['멜란지 그레이'],price:'₩ 39.000 - 45.000',mats:[CASH]},
+{code:'상의 05',img:['t05',3],colors:['청록색 (딥 틸)','레드'],price:'₩ 41.000 - 47.000',mats:[KNIT]},
+{code:'상의 06',img:['t06',4],colors:['크림 화이트'],price:'₩ 48.000 - 59.000',mats:['메리노 울 60% · 캐시미어 25% · 실크 15%']},
+{code:'상의 07',img:['t07',6],colors:['라이트 브라운','다크 브라운'],price:'₩ 39.000 - 41.000',mats:['코튼 45% · 아크릴 40% · 울 15%']},
+{code:'상의 08',img:['t08',3],colors:['브라운 체크'],price:'₩ 35.000 - 40.000',mats:['폴리에스터 60% · 비스코스 20% · 울 20%']},
+{code:'상의 09',colors:['화이트'],price:'₩ 32.000 - 35.000',mats:['면 80% · 실크 15% · 폴리에스터 5%','카라: 레이온 100%'],isNew:true},
+{code:'상의 10',colors:['화이트'],price:'₩ 27.000 - 33.000',mats:['면 70% · 레이온 30%'],isNew:true},
+{code:'세트 01',img:['s01',4],colors:['브라운'],price:'₩ 45.000 - 54.000',mats:['상의: '+KNIT,'스커트: '+PRESS],extra:'체크 머플러 포함'},
+{code:'세트 02',img:['s02',4],colors:['그레이'],price:'₩ 47.000 - 56.000',mats:['상의 · 스커트: '+KNIT]},
+{code:'상의 11',img:['t11',8],colors:['레드','크림색'],price:'₩ 43.000 - 51.000',mats:['폴리에스터 55% · 울 30% · 아크릴 15%']},
+{code:'상의 12',img:['t12',4],colors:['그레이'],price:'₩ 50.000 - 69.000',mats:['울 80% · 폴리에스터 20%']},
+{code:'상의 13',img:['t13',4],colors:['컬러 체크'],price:'₩ 60.000 - 87.000',mats:[BRUSH]},
+{code:'상의 14',img:['t14',4],colors:['그레이 체크'],price:'₩ 67.000 - 103.000',mats:[BRUSH]},
+{code:'팬츠 01',img:['p01',3],colors:['블랙','그레이'],price:'₩ 41.000 - 47.000',mats:['카키 70% · 실크 30%'],extra:'벨트 포함'},
+{code:'팬츠 02',img:['p02',5],colors:['차콜 그레이','라이트 브라운','다크 브라운'],price:'₩ 41.000 - 47.000',mats:[PRESS]},
+{code:'스커트 01',img:['sk01',1],colors:['그레이','블랙'],price:'₩ 36.000 - 44.000',mats:['울 40% · 폴리에스터 40% · 레이온 20%'],extra:'벨트 포함'},
+{code:'스커트 02',img:['sk02',2],colors:['멜란지 그레이','크림색'],price:'₩ 33.000 - 38.000',mats:[PRESS],extra:'벨트 포함'}
+];
+const grid=document.getElementById('grid');
+document.getElementById('count').textContent=P.length+'개 상품';
+const el=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e};
+P.forEach(p=>{
+  const card=el('article','card');
+  if(p.img){
+    const srcs=Array.from({length:p.img[1]},(_,i)=>'images/'+p.img[0]+'_'+(i+1)+'.jpg');
+    const main=el('img','main-img');main.src=srcs[0];main.alt=p.code;main.loading='lazy';card.appendChild(main);
+    if(srcs.length>1){
+      const th=el('div','thumbs');
+      srcs.forEach((s,i)=>{
+        const b=el('button',i===0?'on':'');b.type='button';b.setAttribute('aria-label','사진 '+(i+1));
+        const im=el('img');im.src=s;im.alt='';im.loading='lazy';b.appendChild(im);
+        b.onclick=()=>{main.src=s;th.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on')};
+        th.appendChild(b)});
+      card.appendChild(th)}
+  }else{
+    const n=el('div','noimg');n.appendChild(el('strong',null,p.code));n.appendChild(el('span',null,'신상품 · 사진 준비 중'));card.appendChild(n)}
+  const body=el('div','body');
+  const top=el('div','top');const l=el('div');l.appendChild(el('span','lbl','상품 코드'));l.appendChild(el('span','code',p.code));
+  top.appendChild(l);top.appendChild(el('span','price',p.price));body.appendChild(top);
+  const c=el('div');c.appendChild(el('span','lbl','색상'));const ch=el('div','chips');p.colors.forEach(x=>ch.appendChild(el('span',null,x)));c.appendChild(ch);body.appendChild(c);
+  const m=el('div');m.appendChild(el('span','lbl','소재'));p.mats.forEach(x=>m.appendChild(el('div','mat',x)));body.appendChild(m);
+  if(p.extra)body.appendChild(el('div','extra',p.extra));
+  body.appendChild(el('div','small','유통업체 권장 판매가: '+p.price));
+  if(p.isNew){const nw=el('div','new');nw.appendChild(el('b',null,'신상품 · 주문 제작'));nw.appendChild(el('span',null,'아직 브랜드 공식 사진이 없는 신상품입니다. 최소 50장 이상 주문 시 생산이 진행됩니다.'));body.appendChild(nw)}
+  card.appendChild(body);grid.appendChild(card);
+});
+</script>
+</body>
+</html>
